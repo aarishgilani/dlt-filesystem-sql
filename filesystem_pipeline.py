@@ -1,11 +1,19 @@
 import dlt
-from dlt.sources.filesystem import filesystem, read_csv
+from jaffle_shop import source
 
-files = filesystem(bucket_url="./filesystem", file_glob="*.csv")
-reader = (files | read_csv()).with_name("raw_data")
-pipeline = dlt.pipeline(pipeline_name="jaffle_shop_pipeline", dataset_name="jaffle_shop_data", destination="postgres")
+def load_all_data() -> None:
+    """Constructs a pipeline that will load all jaffle shop data from the filesystem."""
 
-info = pipeline.run(reader)
-print(info);
+    pipeline = dlt.pipeline(
+        pipeline_name="jaffle_shop_pipeline",
+        destination='postgres',
+        dataset_name="jaffle_shop_data", # defines the schema name in the destination
+    )
+    
+    data = source()
+    
+    info = pipeline.run(data)
+    print(info)
 
-# TODO : add tables for each csv file in the filesystem directory
+if __name__ == "__main__":
+    load_all_data()
