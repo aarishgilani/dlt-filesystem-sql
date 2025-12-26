@@ -14,6 +14,9 @@ pipeline = dlt.pipeline(
     dataset_name="pokemon_data",
 )
 
-load_info = pipeline.run(data, table_name="pokemon") # specify table name else the process fails
+# specify table name else the process fails
+# since the table name cannot be inferred from
+# the data structure
+load_info = pipeline.run(data, table_name="pokemon")
 
 print(load_info)
