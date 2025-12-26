@@ -8,3 +8,6 @@ dlthub_telemetry = true
 [sources.filesystem]
 local_dir = "<configure me>" # fill this in!
 bucket_url = "https://aarish-data-entry-point.tor1.digitaloceanspaces.com" # fill this in!
+
+[sources.chess]
+config_int = 0 # fill this in!
