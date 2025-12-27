@@ -10,9 +10,11 @@ from dlt.sources import DltResource
 def source() -> Sequence[DltResource]:
     """
     A dlt source for loading jaffle shop data from local filesystem. It reads CSV files from the specified directory.
+
     Args:
         bucket_url (str): The local directory path where the CSV files are stored. Defaults to "./filesystem".
         file_glob (str): The glob pattern to match CSV files. Defaults to "*.csv".
+
     Returns:
         dlt.resource: A resource containing the loaded CSV data.
     """
@@ -29,6 +31,7 @@ def source() -> Sequence[DltResource]:
 def customers() -> DltResource:
     """
     A dlt resource for loading customers data from customers.csv file in the filesystem.
+
     Returns:
         dlt.resource: A resource containing the customers data.
     """
@@ -40,6 +43,7 @@ def customers() -> DltResource:
 def orders() -> DltResource:
     """
     A dlt resource for loading orders data from orders.csv file in the filesystem.
+
     Returns:
         dlt.resource: A resource containing the orders data.
     """
@@ -50,6 +54,7 @@ def orders() -> DltResource:
 def products() -> DltResource:
     """
     A dlt resource for loading products data from products.csv file in the filesystem.
+
     Returns:
         dlt.resource: A resource containing the products data.
     """
@@ -60,6 +65,7 @@ def products() -> DltResource:
 def stores() -> DltResource:
     """
     A dlt resource for loading stores data from stores.csv file in the filesystem.
+
     Returns:
         dlt.resource: A resource containing the stores data.
     """
@@ -70,6 +76,7 @@ def stores() -> DltResource:
 def supplies() -> DltResource:
     """
     A dlt resource for loading supplies data from supplies.csv file in the filesystem.
+    
     Returns:
         dlt.resource: A resource containing the supplies data.
     """

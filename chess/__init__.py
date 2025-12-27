@@ -45,8 +45,10 @@ def source(
 def players_profiles(players: List[str]) -> Iterator[TDataItem]:
     """
     Yields player profiles for a list of player usernames.
+
     Args:
         players (List[str]): List of player usernames to retrieve profiles for.
+
     Yields:
         Iterator[TDataItem]: An iterator over player profiles data.
     """
@@ -64,8 +66,10 @@ def players_profiles(players: List[str]) -> Iterator[TDataItem]:
 def players_archives(players: List[str]) -> Iterator[List[TDataItem]]:
     """
     Yields url to game archives for specified players.
+
     Args:
         players (List[str]): List of player usernames to retrieve archives for.
+
     Yields:
         Iterator[List[TDataItem]]: An iterator over list of player archive data.
     """
@@ -82,10 +86,12 @@ def players_games(
 ) -> Iterator[Callable[[], List[TDataItem]]]:
     """
     Yields `players` games that happened between `start_month` and `end_month`.
+
     Args:
         players (List[str]): List of player usernames to retrieve games for.
         start_month (str, optional): The starting month in the format "YYYY/MM". Defaults to None.
         end_month (str, optional): The ending month in the format "YYYY/MM". Defaults to None.
+
     Yields:
         Iterator[Callable[[], List[TDataItem]]]: An iterator over callables that return a list of games for each player.
     """  # do a simple validation to prevent common mistakes in month format
@@ -130,8 +136,10 @@ def players_games(
 def players_online_status(players: List[str]) -> Iterator[TDataItem]:
     """
     Returns current online status for a list of players.
+
     Args:
         players (List[str]): List of player usernames to check online status for.
+
     Yields:
         Iterator[TDataItem]: An iterator over the online status of each player.
     """
@@ -155,10 +163,12 @@ def chess_dlt_config_example(
 ) -> DltResource:
     """
     An example of a source that uses dlt to provide secrets and config values.
+
     Args:
         secret_str (str, optional): Secret string provided by dlt.secrets.value. Defaults to dlt.secrets.value.
         secret_dict (Dict[str, Any], optional): Secret dictionary provided by dlt.secrets.value. Defaults to dlt.secrets.value.
         config_int (int, optional): Config integer provided by dlt.config.value. Defaults to dlt.config.value.
+        
     Returns:
         DltResource: Returns a resource yielding the configured values.
     """
