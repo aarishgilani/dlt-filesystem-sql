@@ -1,3 +1,8 @@
+"""
+Chess Pipeline
+=================
+This module uses chess game data fetched from an online source to build a data pipeline.
+"""
 import dlt
 from chess import source
 
