@@ -1,3 +1,9 @@
+"""
+filesystem_pipeline.py
+=========================
+This module defines a data pipeline that loads all jaffle shop data from the filesystem
+"""
+
 import dlt
 from jaffle_shop import source
 
