@@ -9,3 +9,8 @@ dependencies = [
     "marimo>=0.18.4",
     "pandas>=2.3.3",
 ]
+
+[tool.uv.workspace]
+members = [
+    "docs",
+]
