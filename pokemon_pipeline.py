@@ -1,3 +1,8 @@
+"""
+A simple DLT pipeline to fetch data from a public pokeapi.co REST API
+and load it into the postgres data warehouse. 
+"""
+
 import dlt
 from dlt.sources.helpers import requests
 
