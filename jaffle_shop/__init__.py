@@ -1,4 +1,6 @@
-"""A source loading jaffle shop data from local filesystem"""
+"""
+A source loading jaffle shop data from local filesystem
+"""
 
 import dlt
 from typing import Sequence
@@ -13,7 +15,7 @@ def source() -> Sequence[DltResource]:
 
     Args:
         bucket_url (str): The local directory path where the CSV files are stored. Defaults to "./filesystem".
-        file_glob (str): The glob pattern to match CSV files. Defaults to "*.csv".
+        file_glob (str): The glob pattern to match CSV files. Defaults to "\*.csv".
 
     Returns:
         dlt.resource: A resource containing the loaded CSV data.
