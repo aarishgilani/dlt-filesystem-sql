@@ -21,13 +21,14 @@ jobs:
 
       - name: Install dependencies
         run: |
+          cd docs
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install sphinx sphinx-rtd-theme
 
       - name: Build documentation
         run: |
-          sphinx-build -b html docs/source docs/build/html
+          sphinx-build -b html source build/html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
