@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'data_load_tool_docs'
+project = 'Data Load Script with DLT'
 copyright = '2025, Aarish Gilani'
 author = 'Aarish Gilani'
 release = 'v0.0.1-alpha'
@@ -14,7 +14,17 @@ release = 'v0.0.1-alpha'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ['sphinx.ext.autodoc']
+extensions = ['sphinx.ext.autodoc', 'sphinxcontrib.mermaid']
+
+# Mock imports for external dependencies
+autodoc_mock_imports = [
+    'dlt',
+    'dlt.common',
+    'dlt.sources',
+    'dlt.sources.filesystem',
+    'dlt.destinations',
+    'pendulum'
+]
 
 templates_path = ['_templates']
 exclude_patterns = []
@@ -29,4 +39,10 @@ html_static_path = ['_static']
 
 import os
 import sys
+import site
+
+# Add project root to path
 sys.path.insert(0, os.path.abspath('../..'))
+
+# Add system site-packages to access globally installed packages
+sys.path.extend(site.getsitepackages())
