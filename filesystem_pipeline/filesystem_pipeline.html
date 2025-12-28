@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Jaffle Shop Pipeline &#8212; Data Load Script with DLT v0.0.1-alpha documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=e98d74f8"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.2.0/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.2.0/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+const defaultStyle = document.createElement('style');
+defaultStyle.textContent = `pre.mermaid {
+    /* Same as .mermaid-container > pre */
+    display: block;
+    width: 100%;
+}
+
+pre.mermaid > svg {
+    /* Same as .mermaid-container > pre > svg */
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}
+`;
+document.head.appendChild(defaultStyle);
+
+const fullscreenStyle = document.createElement('style');
+fullscreenStyle.textContent = `.mermaid-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.mermaid-container > pre {
+    display: block;
+    width: 100%;
+}
+
+.mermaid-container > pre > svg {
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}
+
+.mermaid-fullscreen-btn {
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    line-height: 1;
+    padding: 0;
+    color: #333;
+}
+
+.mermaid-fullscreen-btn:hover {
+    opacity: 100% !important;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-btn.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-btn.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal {
+    display: none;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 95vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.98);
+    z-index: 9999;
+    padding: 20px;
+    overflow: auto;
+}
+
+.mermaid-fullscreen-modal.dark-theme {
+    background: rgba(0, 0, 0, 0.98);
+}
+
+.mermaid-fullscreen-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen {
+    position: relative;
+    width: 95vw;
+    height: 90vh;
+    max-width: 95vw;
+    max-height: 90vh;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen.dark-theme {
+    background: #1a1a1a;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+.mermaid-container-fullscreen pre.mermaid {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen .mermaid svg {
+    height: 100% !important;
+    width: 100% !important;
+    cursor: grab;
+}
+
+.mermaid-fullscreen-close {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+    font-size: 24px;
+    line-height: 1;
+    color: #333;
+}
+
+.mermaid-fullscreen-close:hover {
+    background: white;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-close.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-close.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal .mermaid-fullscreen-btn {
+    display: none !important;
+}`;
+document.head.appendChild(fullscreenStyle);
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        return brightness < 128;
+    }
+    return false;
+};
+
+const load = async () => {
+    await mermaid.run();
+
+    const all_mermaids = document.querySelectorAll(".mermaid");
+    const mermaids_processed = document.querySelectorAll(".mermaid[data-processed='true']");
+
+    if ("False" === "True") {
+        const mermaids_to_add_zoom = -1 === -1 ? all_mermaids.length : -1;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("");
+            if(all_mermaids.length !== mermaids_processed.length) {
+                setTimeout(load, 200);
+                return;
+            } else if(svgs.size() !== mermaids_to_add_zoom) {
+                setTimeout(load, 200);
+                return;
+            } else {
+                svgs.each(function() {
+                    var svg = d3.select(this);
+                    svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+                    var inner = svg.select("g");
+                    var zoom = d3.zoom().on("zoom", function(event) {
+                        inner.attr("transform", event.transform);
+                    });
+                    svg.call(zoom);
+                });
+            }
+        }
+    } else if(all_mermaids.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(load, 200);
+        return;
+    }
+
+    const darkTheme = isDarkTheme();
+
+    // Stop here if not adding fullscreen capability
+    if ("True" !== "True") return;
+
+    const modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    const modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    let previousScrollOffset = [window.scrollX, window.scrollY];
+
+    const closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+
+    const allButtons = [];
+
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = '⛶';
+        fullscreenBtn.style.opacity = '50%';
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scroll, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.sdisplay = 'block';
+
+                if ("False" === "True") {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        container.appendChild(fullscreenBtn);
+        allButtons.push(fullscreenBtn);
+    });
+
+    // Update theme classes when theme changes
+    const updateTheme = () => {
+        const dark = isDarkTheme();
+        allButtons.forEach(btn => {
+            if (dark) {
+                btn.classList.add('dark-theme');
+            } else {
+                btn.classList.remove('dark-theme');
+            }
+        });
+        if (dark) {
+            modal.classList.add('dark-theme');
+            modalContent.classList.add('dark-theme');
+            closeBtn.classList.add('dark-theme');
+        } else {
+            modal.classList.remove('dark-theme');
+            modalContent.classList.remove('dark-theme');
+            closeBtn.classList.remove('dark-theme');
+        }
+    };
+
+    // Watch for theme changes
+    const observer = new MutationObserver(updateTheme);
+    observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    observer.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style']
+    });
+};
+
+window.addEventListener("load", load);
+</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chess.com Pipeline" href="../chess_pipeline/chess_pipeline.html" />
+    <link rel="prev" title="Data Loading Project documentation" href="../index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>This module builds a data pipeline using .csv files stored in the local filesystem.</p>
+<section id="jaffle-shop-pipeline">
+<h1>Jaffle Shop Pipeline<a class="headerlink" href="#jaffle-shop-pipeline" title="Link to this heading">¶</a></h1>
+<p>This pipeline demonstrates loading data from a local filesystem into a PostgreSQL database using <cite>dlt</cite>. It reads multiple CSV files representing Jaffle Shop data and loads them into separate tables.</p>
+<section id="pipeline-components">
+<h2>Pipeline Components<a class="headerlink" href="#pipeline-components" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Data Source</strong>: CSV files (<code class="docutils literal notranslate"><span class="pre">customers.csv</span></code>, <code class="docutils literal notranslate"><span class="pre">orders.csv</span></code>, <code class="docutils literal notranslate"><span class="pre">products.csv</span></code>, <code class="docutils literal notranslate"><span class="pre">stores.csv</span></code>, <code class="docutils literal notranslate"><span class="pre">supplies.csv</span></code>) located in the <code class="docutils literal notranslate"><span class="pre">filesystem/incoming</span></code> directory.</p></li>
+<li><p><strong>ETL Tool</strong>: <code class="docutils literal notranslate"><span class="pre">dlt</span></code> (data load tool) Python library.</p></li>
+<li><p><strong>Destination</strong>: A PostgreSQL database instance.</p></li>
+</ul>
+</section>
+<section id="workflow">
+<h2>Workflow<a class="headerlink" href="#workflow" title="Link to this heading">¶</a></h2>
+<p>The pipeline executes the following steps:</p>
+<ol class="arabic simple">
+<li><p><strong>Initialization</strong>: A <code class="docutils literal notranslate"><span class="pre">dlt</span></code> pipeline is initialized with the name <code class="docutils literal notranslate"><span class="pre">jaffle_shop_pipeline</span></code>, a <code class="docutils literal notranslate"><span class="pre">postgres</span></code> destination, and the dataset name <code class="docutils literal notranslate"><span class="pre">jaffle_shop_data</span></code>.</p></li>
+<li><p><strong>Data Loading</strong>: The <code class="docutils literal notranslate"><span class="pre">jaffle_shop</span></code> source reads the various CSV files from the filesystem.</p></li>
+<li><p><strong>Table Creation</strong>: <code class="docutils literal notranslate"><span class="pre">dlt</span></code> creates tables in the <code class="docutils literal notranslate"><span class="pre">jaffle_shop_data</span></code> schema corresponding to the CSV files (<code class="docutils literal notranslate"><span class="pre">customers</span></code>, <code class="docutils literal notranslate"><span class="pre">orders</span></code>, <code class="docutils literal notranslate"><span class="pre">products</span></code>, <code class="docutils literal notranslate"><span class="pre">stores</span></code>, <code class="docutils literal notranslate"><span class="pre">supplies</span></code>).</p></li>
+<li><p><strong>Data Insertion</strong>: The data from the CSV files is inserted into the corresponding tables.</p></li>
+<li><p><strong>Termination</strong>: The pipeline run finishes, and load information is printed to the console.</p></li>
+</ol>
+<section id="workflow-diagram">
+<h3>Workflow Diagram<a class="headerlink" href="#workflow-diagram" title="Link to this heading">¶</a></h3>
+<pre id="filesystem-pipeline-workflow" class="mermaid">
+        graph TD
+   A[Start] --&gt; B{Initialize dlt Pipeline};
+   B --&gt; C{Call jaffle_shop source};
+
+   subgraph &quot;jaffle_shop source&quot;
+      C --&gt; R1[customers resource]
+      C --&gt; R2[orders resource]
+      C --&gt; R3[products resource]
+      C --&gt; R4[stores resource]
+      C --&gt; R5[supplies resource]
+   end
+
+   subgraph &quot;Filesystem (CSV files)&quot;
+      R1 --&gt; F1[customers.csv]
+      R2 --&gt; F2[orders.csv]
+      R3 --&gt; F3[products.csv]
+      R4 --&gt; F4[stores.csv]
+      R5 --&gt; F5[supplies.csv]
+   end
+
+   subgraph &quot;PostgreSQL (jaffle_shop_data schema)&quot;
+      F1 --&gt; T1[customers table]
+      F2 --&gt; T2[orders table]
+      F3 --&gt; T3[products table]
+      F4 --&gt; T4[stores table]
+      F5 --&gt; T5[supplies table]
+   end
+
+   T1 --&gt; Z[End]
+   T2 --&gt; Z
+   T3 --&gt; Z
+   T4 --&gt; Z
+   T5 --&gt; Z
+    </pre></section>
+</section>
+<section id="data-schema">
+<h2>Data Schema<a class="headerlink" href="#data-schema" title="Link to this heading">¶</a></h2>
+<p>The pipeline creates the following tables in the <code class="docutils literal notranslate"><span class="pre">jaffle_shop_data</span></code> schema in the PostgreSQL database:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">customers</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">orders</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">products</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stores</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">supplies</span></code></p></li>
+</ul>
+<p>The columns in each table are inferred by <code class="docutils literal notranslate"><span class="pre">dlt</span></code> from the headers in the respective CSV files. <code class="docutils literal notranslate"><span class="pre">dlt</span></code> also adds its own metadata columns (<code class="docutils literal notranslate"><span class="pre">_dlt_load_id</span></code>, <code class="docutils literal notranslate"><span class="pre">_dlt_id</span></code>) for internal tracking.</p>
+</section>
+<section id="technical-documentation">
+<h2>Technical Documentation<a class="headerlink" href="#technical-documentation" title="Link to this heading">¶</a></h2>
+<p>Entry point for the filesystem pipeline:</p>
+<section id="filesystem-pipeline-py">
+<span id="module-filesystem_pipeline"></span><h3>filesystem_pipeline.py<a class="headerlink" href="#filesystem-pipeline-py" title="Link to this heading">¶</a></h3>
+<p>This module defines a data pipeline that loads all jaffle shop data from the filesystem</p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="filesystem_pipeline.load_all_data">
+<span class="sig-prename descclassname"><span class="pre">filesystem_pipeline.</span></span><span class="sig-name descname"><span class="pre">load_all_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#filesystem_pipeline.load_all_data" title="Link to this definition">¶</a></dt>
+<dd><p>Constructs a pipeline that will load all jaffle shop data from the filesystem.</p>
+</dd></dl>
+
+<p>The <code class="docutils literal notranslate"><span class="pre">filesystem_pipeline</span></code> data source has following resources:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="jaffle_shop.source">
+<span class="sig-prename descclassname"><span class="pre">jaffle_shop.</span></span><span class="sig-name descname"><span class="pre">source</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">dlt.sources.DltResource</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#jaffle_shop.source" title="Link to this definition">¶</a></dt>
+<dd><p>A dlt source for loading jaffle shop data from local filesystem. It reads CSV files from the specified directory.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>bucket_url (str): The local directory path where the CSV files are stored. Defaults to “./filesystem”.
+file_glob (str): The glob pattern to match CSV files. Defaults to “*.csv”.</p>
+</dd>
+<dt>Returns:</dt><dd><p>dlt.resource: A resource containing the loaded CSV data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="jaffle_shop.customers">
+<span class="sig-prename descclassname"><span class="pre">jaffle_shop.</span></span><span class="sig-name descname"><span class="pre">customers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dlt.sources.DltResource</span></span></span><a class="headerlink" href="#jaffle_shop.customers" title="Link to this definition">¶</a></dt>
+<dd><p>A dlt resource for loading customers data from customers.csv file in the filesystem.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>dlt.resource: A resource containing the customers data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="jaffle_shop.orders">
+<span class="sig-prename descclassname"><span class="pre">jaffle_shop.</span></span><span class="sig-name descname"><span class="pre">orders</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dlt.sources.DltResource</span></span></span><a class="headerlink" href="#jaffle_shop.orders" title="Link to this definition">¶</a></dt>
+<dd><p>A dlt resource for loading orders data from orders.csv file in the filesystem.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>dlt.resource: A resource containing the orders data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="jaffle_shop.products">
+<span class="sig-prename descclassname"><span class="pre">jaffle_shop.</span></span><span class="sig-name descname"><span class="pre">products</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dlt.sources.DltResource</span></span></span><a class="headerlink" href="#jaffle_shop.products" title="Link to this definition">¶</a></dt>
+<dd><p>A dlt resource for loading products data from products.csv file in the filesystem.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>dlt.resource: A resource containing the products data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="jaffle_shop.stores">
+<span class="sig-prename descclassname"><span class="pre">jaffle_shop.</span></span><span class="sig-name descname"><span class="pre">stores</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dlt.sources.DltResource</span></span></span><a class="headerlink" href="#jaffle_shop.stores" title="Link to this definition">¶</a></dt>
+<dd><p>A dlt resource for loading stores data from stores.csv file in the filesystem.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>dlt.resource: A resource containing the stores data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="jaffle_shop.supplies">
+<span class="sig-prename descclassname"><span class="pre">jaffle_shop.</span></span><span class="sig-name descname"><span class="pre">supplies</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dlt.sources.DltResource</span></span></span><a class="headerlink" href="#jaffle_shop.supplies" title="Link to this definition">¶</a></dt>
+<dd><p>A dlt resource for loading supplies data from supplies.csv file in the filesystem.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>dlt.resource: A resource containing the supplies data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The resources are replaced on each pipeline run to ensure latest data is loaded from the filesystem. Since the data is considerable small, full refresh is used instead of incremental loading.</p>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Data Load Script with DLT</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Jaffle Shop Pipeline</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pipeline-components">Pipeline Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#workflow">Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-schema">Data Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#technical-documentation">Technical Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chess_pipeline/chess_pipeline.html">Chess.com Pipeline</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../index.html" title="previous chapter">Data Loading Project documentation</a></li>
+      <li>Next: <a href="../chess_pipeline/chess_pipeline.html" title="next chapter">Chess.com Pipeline</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Aarish Gilani.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.0.4</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/filesystem_pipeline/filesystem_pipeline.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

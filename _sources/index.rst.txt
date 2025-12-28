@@ -4,15 +4,18 @@
    contain the root `toctree` directive.
 
 Data Loading Project documentation
-=================================
+===================================
 
 .. note::
    This is a living documentation and is subject to change as the project evolves.
+
+This project demonstrates data loading techniques using DLT pipelines.
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   filesystem_pipeline
-   chess_pipeline
+   filesystem_pipeline/filesystem_pipeline
+   chess_pipeline/chess_pipeline
+   
 
