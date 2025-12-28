@@ -1,5 +1,11 @@
 This module builds a data pipeline using .csv files stored in the local filesystem.
 
+.. note::
+   The resources are replaced on each pipeline run to ensure 
+   latest data is loaded from the filesystem. Since the data 
+   is considerably small, full refresh is used instead of 
+   incremental loading.
+
 Jaffle Shop Pipeline
 ====================
 
@@ -76,6 +82,12 @@ The pipeline creates the following tables in the ``jaffle_shop_data`` schema in 
 
 The columns in each table are inferred by ``dlt`` from the headers in the respective CSV files. ``dlt`` also adds its own metadata columns (``_dlt_load_id``, ``_dlt_id``) for internal tracking.
 
+.. seealso:: 
+   https://github.com/aarishgilani/jaffle-shop-dbt DBT project that 
+   utilizes the data loaded by this pipeline for further transformations and analysis.
+   Creating a self-service analytics stack using DLT, DBT, and Superset. T (Transform) 
+   part of the ELT (Extract, Load, Transform) process is handled by DBT in this case.
+
 Technical Documentation
 -----------------------
 
@@ -93,7 +105,9 @@ The ``filesystem_pipeline`` data source has following resources:
 .. autofunction:: jaffle_shop.stores
 .. autofunction:: jaffle_shop.supplies 
 
-.. note::
-   The resources are replaced on each pipeline run to ensure latest data is loaded from the filesystem. Since the data is considerable small, full refresh is used instead of incremental loading.
+.. admonition:: Laugh Time!
+   :class: laughter
+   
+   A SQL query walks into a bar, walks up to two tables, and asks, “Can I join you?”  😂
 
   

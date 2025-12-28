@@ -62,3 +62,10 @@ Functions
 
 .. automodule:: chess
    :members: players_profiles, players_archives, players_games, players_online_status
+
+.. admonition:: Laugh Time!
+   :class: laughter
+
+   Q: What is a chess player's favorite music? 
+   
+   A: Rook and Roll 😄

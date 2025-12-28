@@ -3,11 +3,16 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Data Loading Project documentation
+Data Loading Project Documentation
 ===================================
 
-.. note::
+.. tip::
    This is a living documentation and is subject to change as the project evolves.
+
+   In progress pipelines:
+
+   * **Florida State University's** Open Data Pipeline using Pandas DataFrames.
+   * **GitHub** Issues, PR and Commit Data Pipeline using exports.
 
 This project demonstrates data loading techniques using DLT pipelines.
 
@@ -17,5 +22,9 @@ This project demonstrates data loading techniques using DLT pipelines.
 
    filesystem_pipeline/filesystem_pipeline
    chess_pipeline/chess_pipeline
-   
+   todo
 
+.. admonition:: Laugh Time!
+   :class: laughter
+   
+   They call me Dirichlet because all my potential is latent and awaiting allocation. 😄

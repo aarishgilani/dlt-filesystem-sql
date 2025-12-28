@@ -26,6 +26,17 @@ autodoc_mock_imports = [
     'pendulum'
 ]
 
+html_css_files = [
+    'style.css',
+]
+
+html_theme_options = {
+    'github_button': True,
+    'github_user': 'aarishgilani',
+    'github_repo': 'dlt-filesystem-sql',
+    'github_type': 'No Text Variant',
+}
+
 templates_path = ['_templates']
 exclude_patterns = []
 
