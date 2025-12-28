@@ -1,23 +1,33 @@
 import dlt
+from dlt.sources.helpers import requests
 
 # Sample data containing pokemon details
-data = [
-    {"id": "1", "name": "bulbasaur", "size": {"weight": 6.9, "height": 0.7}},
-    {"id": "4", "name": "charmander", "size": {"weight": 8.5, "height": 0.6}},
-    {"id": "25", "name": "pikachu", "size": {"weight": 6, "height": 0.4}},
-    {"id": "39", "name": "jigglypuff", "size": {"weight": 5.5, "height": 0.5}},
-]
+
+# TODO: Write a resource function to fetch data from a REST API
+@dlt.resource(table_name="pokemon_api")
+def fetch_pokemon_data():
+    """
+    Fetches pokemon data from the PokeAPI.
+    Yields:
+        List[Dict]: A list of pokemon data dictionaries.
+    """
+    url = "https://pokeapi.co/api/v2/pokemon"
+    response = requests.get(url)
+    print("Fetching data from PokeAPI...")
+    print(response.json())
+    yield response.json()["results"]
 
 # Set pipeline name, destination, and dataset name
+# Pipeline name is linked to the source and table for some reason
+# Updated the name for API specific schema
 pipeline = dlt.pipeline(
-    pipeline_name="quick_start",
+    pipeline_name="pokemon_api_pipeline",
     destination="postgres",
     dataset_name="pokemon_data",
 )
 
-# specify table name else the process fails
 # since the table name cannot be inferred from
 # the data structure
-load_info = pipeline.run(data, table_name="pokemon", write_disposition="merge", primary_key=["id"])
+load_info = pipeline.run(fetch_pokemon_data, table_name="pokemon_api")
 
 print(load_info)
