@@ -76,13 +76,13 @@ The columns in each table are inferred by `dlt` from the headers in the respecti
 
 ---
 
-## Toy Pipeline Demo
+## Pokemon Pipeline Demo 
 
-This pipeline demonstrates a simple data loading process using the `dlt`. It loads a predefined list of Pokémon data into a PostgreSQL database.
+This pipeline demonstrates a simple data loading process using the `dlt`. It loads a Pokémon data fetched from REST API into a PostgreSQL database.
 
 ### Pipeline Components
 
-- **Data Source**: A static list of Pokémon data defined within the Python script.
+- **Data Source**: List fetched from pokeapi.co.
 - **ETL Tool**: `dlt` (data load tool) Python library used to create and run the pipeline.
 - **Destination**: A PostgreSQL database instance.
 
