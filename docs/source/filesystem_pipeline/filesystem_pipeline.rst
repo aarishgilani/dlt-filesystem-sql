@@ -85,7 +85,7 @@ The columns in each table are inferred by ``dlt`` from the headers in the respec
 .. seealso:: 
    https://github.com/aarishgilani/jaffle-shop-dbt DBT project that 
    utilizes the data loaded by this pipeline for further transformations and analysis.
-   Creating a self-service analytics stack using DLT, DBT, and Superset. T (Transform) 
+   Creating a self-service analytics stack using DLT, DBT, and PowerBI. T (Transform) 
    part of the ELT (Extract, Load, Transform) process is handled by DBT in this case.
 
 Technical Documentation
@@ -107,7 +107,7 @@ The ``filesystem_pipeline`` data source has following resources:
 
 .. admonition:: Laugh Time!
    :class: laughter
-   
+
    A SQL query walks into a bar, walks up to two tables, and asks, “Can I join you?”  😂
 
   
