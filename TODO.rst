@@ -11,7 +11,7 @@ Documentation
 -------------
 
 - [ ] Write documentation for pokemon pipeline
-- [ ] Write documentation for dataframes pipeline
+- [x] Write documentation for dataframes pipeline
 
 Data Frames Pipeline
 --------------------
@@ -24,7 +24,7 @@ Improvements to Jaffle Shop Pipeline
 - [ ] Add data validation steps
 - [ ] Move CSV files that are read into an archive folder after successful load
 - [ ] Eventually move the CSV files to a cloud storage and read from there; implement authentication
-- [ ] Handle transformation to sanitize data and remove PII before loading into the warehouse
+- [x] Handle transformation to sanitize data and remove PII before loading into the warehouse
 
 .. admonition:: Laugh Time!
    :class: laughter
