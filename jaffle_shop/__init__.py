@@ -37,7 +37,6 @@ def customers() -> DltResource:
     Returns:
         dlt.resource: A resource containing the customers data.
     """
-    print("Loading customers data...")
     files = filesystem(bucket_url=BUCKET_URL, file_glob=f"{FILE_PREFIX}customers.csv")
     return (files | read_csv()).with_name("customers")
 
@@ -84,3 +83,5 @@ def supplies() -> DltResource:
     """
     files = filesystem(bucket_url=BUCKET_URL, file_glob=f"{FILE_PREFIX}supplies.csv")
     return (files | read_csv()).with_name("supplies")
+
+
