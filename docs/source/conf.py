@@ -23,7 +23,8 @@ autodoc_mock_imports = [
     'dlt.sources',
     'dlt.sources.filesystem',
     'dlt.destinations',
-    'pendulum'
+    'pendulum',
+    'pandas',
 ]
 
 html_css_files = [
