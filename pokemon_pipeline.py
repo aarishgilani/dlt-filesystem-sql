@@ -7,6 +7,7 @@ and load it into the postgres data warehouse.
 
 import dlt
 from dlt.sources.helpers import requests
+from dlt.common.typing import TDataItems
 
 @dlt.resource(table_name="pokemon_api")
 def fetch_pokemon_data():
@@ -21,6 +22,22 @@ def fetch_pokemon_data():
     print(response.json())
     yield response.json()["results"]
 
+@dlt.transformer(data_from=fetch_pokemon_data, table_name="pokemon_api_details")
+def pokemon_details(items: TDataItems) -> TDataItems:
+    """
+    Transformer to fetch detailed data for each pokemon.
+
+    Args:
+        items (TDataItems): The list of pokemon data dictionaries.
+
+    Yields:
+        TDataItems: The detailed pokemon data dictionaries.
+    """
+    for item in items:
+        detail_url = item["url"]
+        detail_response = requests.get(detail_url)
+        yield detail_response.json()
+
 
 # Pipeline name is linked to the source and table for some reason
 # Updated the name for API specific schema
@@ -31,6 +48,8 @@ pipeline = dlt.pipeline(
 )
 
 # table name inferred from resource decorator
-load_info = pipeline.run(fetch_pokemon_data)
+load_info = pipeline.run(pokemon_details)
 
 print(load_info)
+
+print(pipeline.dataset().pokemon_api_details.df())

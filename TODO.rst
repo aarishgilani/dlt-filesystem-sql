@@ -26,6 +26,11 @@ Improvements to Jaffle Shop Pipeline
 - [ ] Eventually move the CSV files to a cloud storage and read from there; implement authentication
 - [x] Handle transformation to sanitize data and remove PII before loading into the warehouse
 
+Improvements to Pokemon Pipeline
+--------------------------------
+
+- [x] Add transformation to fetch additional data from pokeapi.co
+
 .. admonition:: Laugh Time!
    :class: laughter
 
