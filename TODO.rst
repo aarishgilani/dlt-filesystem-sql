@@ -10,7 +10,7 @@ Main Queue for Demos
 Documentation
 -------------
 
-- [ ] Write documentation for pokemon pipeline
+- [x] Write documentation for pokemon pipeline
 - [x] Write documentation for dataframes pipeline
 
 Data Frames Pipeline
@@ -30,6 +30,8 @@ Improvements to Pokemon Pipeline
 --------------------------------
 
 - [x] Add transformation to fetch additional data from pokeapi.co
+- [ ] Update table nesting for pokemon details
+- [ ] Create a source for pokemon pipeline by combining similar resources
 
 .. admonition:: Laugh Time!
    :class: laughter
