@@ -23,6 +23,7 @@ This project demonstrates data loading techniques using DLT pipelines.
    filesystem_pipeline/filesystem_pipeline
    chess_pipeline/chess_pipeline
    dataframes_pipeline/dataframes_pipeline
+   pokemon_pipeline/pokemon_pipeline
    todo
 
 .. admonition:: Laugh Time!
