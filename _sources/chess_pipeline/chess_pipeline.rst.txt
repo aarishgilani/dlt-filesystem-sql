@@ -54,8 +54,8 @@ Workflow Diagram
       E4 --> D;
       D --> F[End];
 
-Functions
----------
+Technical Documentation
+------------------------
 
 .. automodule:: chess_pipeline
    :members:
