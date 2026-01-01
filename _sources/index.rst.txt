@@ -11,7 +11,7 @@ Data Loading Project Documentation
 
    In progress pipelines:
 
-   * **Florida State University's** Open Data Pipeline using Pandas DataFrames.
+   * **StatCan PSIS** `Statistics Canada Postsecondary Enrolments Data Pipeline <psis_pipeline/psis_pipeline.html>`_.
    * **GitHub** Issues, PR and Commit Data Pipeline using exports.
 
 This project demonstrates data loading techniques using DLT pipelines.
@@ -20,6 +20,7 @@ This project demonstrates data loading techniques using DLT pipelines.
    :maxdepth: 2
    :caption: Contents:
 
+   psis_pipeline/psis_pipeline
    filesystem_pipeline/filesystem_pipeline
    chess_pipeline/chess_pipeline
    dataframes_pipeline/dataframes_pipeline
