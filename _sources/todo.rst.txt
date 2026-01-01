@@ -33,6 +33,16 @@ Improvements to Pokemon Pipeline
 - [ ] Update table nesting for pokemon details
 - [ ] Create a source for pokemon pipeline by combining similar resources
 
+PSIS Pipeline
+---------------
+- [x] Create initial pipeline structure
+- [x] Implement data transformations using DBT
+- [ ] Add data quality checks
+- [ ] Build a basic PHP-based dashboard to visualize key metrics
+- [ ] Host in a monorepo
+
+
+
 .. admonition:: Laugh Time!
    :class: laughter
 
