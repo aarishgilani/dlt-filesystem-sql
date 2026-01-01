@@ -19,7 +19,7 @@ def parse_psis_enrolments() -> TDataItems:
     Yields:
         TDataItems: The parsed PSIS enrolment data dictionaries.
     """
-    bucket_url = "./filesystem/incoming/"
+    bucket_url = "https://aarish-data-entry-point.tor1.digitaloceanspaces.com/incoming/"
     file_name = "37100011.csv"
     file = filesystem(bucket_url=bucket_url, file_glob=file_name)
 
