@@ -25,7 +25,7 @@ def parse_psis_enrolments() -> TDataItems:
 
     return (file | read_csv()).with_name("psis_enrolments")
 
-pipeline = dlt.pipeline(
+pipeline: dlt.Pipeline = dlt.pipeline(
     pipeline_name="psis_data_pipeline",
     destination="postgres",
     dataset_name="psis_data",
